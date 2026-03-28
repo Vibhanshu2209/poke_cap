@@ -49,8 +49,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.displayMedium?.color ?? Colors.black;
+    final subtextColor = Theme.of(context).textTheme.bodySmall?.color ?? Colors.black54;
+    final dividerColor = Theme.of(context).dividerColor;
+    final iconColor = Theme.of(context).iconTheme.color ?? Colors.black54;
+    
     return Scaffold(
-      backgroundColor: PokemonColors.background,
       body: Padding(
         padding: const EdgeInsets.all(48.0),
         child: Column(
@@ -66,15 +70,15 @@ class _HomePageState extends State<HomePage> {
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!
-                      .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+                      .copyWith(fontWeight: FontWeight.w600),
                 ).padY(8),
                 const ThemeToggleButton(),
               ],
             ),
-            const Divider(color: Colors.black54, thickness: 2),
-            const Text(
+            Divider(color: dividerColor, thickness: 2),
+            Text(
               'Search for any Pokémon that exists on the planet',
-              style: TextStyle(fontSize: 16, color: Colors.black54),
+              style: TextStyle(fontSize: 16, color: subtextColor),
             ).padY(8),
             const SizedBox(height: 16),
             SizedBox(
@@ -110,20 +114,20 @@ class _HomePageState extends State<HomePage> {
                         decoration: InputDecoration(
                           focusColor: PokemonColors.buttonColor,
                           hintStyle: Theme.of(context).textTheme.bodySmall,
-                          fillColor: PokemonColors.searchField,
+                          fillColor: Theme.of(context).colorScheme.surface,
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide:
-                                  BorderSide(color: PokemonColors.searchField)),
+                                  BorderSide(color: Theme.of(context).colorScheme.outline)),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide:
                                   BorderSide(color: PokemonColors.buttonColor)),
                           filled: true,
                           hintText: 'Name or Number',
-                          suffixIcon: const Icon(
+                          suffixIcon: Icon(
                             Icons.search,
-                            color: Colors.black38,
+                            color: iconColor,
                             size: 32,
                           ),
                           border: OutlineInputBorder(
@@ -162,11 +166,11 @@ class _HomePageState extends State<HomePage> {
                   if (isFilterApplied)
                     TextButton(
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+                        foregroundColor: textColor,
                         padding: const EdgeInsets.symmetric(
                             vertical: 16, horizontal: 24),
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(
+                          side: BorderSide(
                               color: PokemonColors.buttonColor, width: 1),
                           borderRadius: BorderRadius.circular(10),
                         ),

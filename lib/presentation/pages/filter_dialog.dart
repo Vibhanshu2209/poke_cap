@@ -61,14 +61,20 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final textColor = Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black87;
+    final dividerColor = Theme.of(context).dividerColor;
+    final trailingTextColor = isDarkMode ? Colors.grey.shade400 : Colors.grey.shade600;
+    
     return AlertDialog(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      backgroundColor: PokemonColors.background,
+      backgroundColor: backgroundColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Filters'),
+          Text('Filters', style: Theme.of(context).textTheme.titleLarge),
           IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -84,8 +90,8 @@ class _FilterDialogState extends State<FilterDialog> {
             spacing: 16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTypeSection(),
-              _buildStatsSection(),
+              _buildTypeSection(context, isDarkMode, dividerColor, trailingTextColor),
+              _buildStatsSection(context, isDarkMode, textColor),
             ],
           ),
         ),
@@ -120,7 +126,7 @@ class _FilterDialogState extends State<FilterDialog> {
     );
   }
 
-  Widget _buildTypeSection() {
+  Widget _buildTypeSection(BuildContext context, bool isDarkMode, Color dividerColor, Color trailingTextColor) {
     final selectedItemsStringBuilder = selectedTypes.isEmpty
         ? "No Types Selected"
         : "${selectedTypes.first}${selectedTypes.length > 1 ? " + ${selectedTypes.length - 1} More" : ""}";
@@ -131,18 +137,18 @@ class _FilterDialogState extends State<FilterDialog> {
       showTrailingIcon: true,
       trailing: Text(
         selectedItemsStringBuilder,
-        style: TextStyle(color: Colors.grey.shade600),
+        style: TextStyle(color: trailingTextColor),
       ),
-      title: Text('Type'),
+      title: Text('Type', style: Theme.of(context).textTheme.titleMedium),
       children: [
-        Divider(height: 1, color: Colors.grey.shade300),
+        Divider(height: 1, color: dividerColor),
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Wrap(
             spacing: 8.0,
             runSpacing: 8.0,
             children: _allTypes.map((type) {
-              return _buildTypeChip(type);
+              return _buildTypeChip(context, type, isDarkMode);
             }).toList(),
           ),
         ),
@@ -150,11 +156,11 @@ class _FilterDialogState extends State<FilterDialog> {
     );
   }
 
-  Widget _buildTypeChip(String type) {
+  Widget _buildTypeChip(BuildContext context, String type, bool isDarkMode) {
     return FilterChip(
       label: Text(type),
-      backgroundColor: PokemonColors.background,
-      selectedColor: PokemonColors.getColorByType(type.toLowerCase()),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      selectedColor: PokemonColors.getColorByType(type.toLowerCase(), isDarkMode: isDarkMode),
       selected: selectedTypes.contains(type),
       onSelected: (bool selected) {
         _toggleType(type);
@@ -162,12 +168,12 @@ class _FilterDialogState extends State<FilterDialog> {
     );
   }
 
-  Widget _buildStatsSection() {
+  Widget _buildStatsSection(BuildContext context, bool isDarkMode, Color textColor) {
     return ExpansionTile(
       collapsedShape: categoryBorder,
       shape: categoryBorder,
       showTrailingIcon: true,
-      title: Text('Stats'),
+      title: Text('Stats', style: Theme.of(context).textTheme.titleMedium),
       childrenPadding: EdgeInsets.symmetric(horizontal: 16),
       children: selectedStats.keys.map((stat) {
         return Column(
@@ -175,10 +181,7 @@ class _FilterDialogState extends State<FilterDialog> {
           children: [
             Text(
               StringConst.getContentString(stat),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Colors.black87),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             RangeSlider(
               values: selectedStats[stat]!,

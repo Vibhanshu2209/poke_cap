@@ -12,6 +12,9 @@ class BoxedImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final borderColor = isDarkMode ? Colors.white30 : Colors.black87;
+    
     var typesList = ["unknown"];
     if (pokemon.types.isNotEmpty) {
       typesList = pokemon.types;
@@ -21,7 +24,7 @@ class BoxedImageView extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-                for (String x in typesList) PokemonColors.getColorByType(x)
+                for (String x in typesList) PokemonColors.getColorByType(x, isDarkMode: isDarkMode)
               ])
         : null;
     return Container(
@@ -30,13 +33,13 @@ class BoxedImageView extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: l,
-        color: PokemonColors.getColorByType(typesList.first),
+        color: PokemonColors.getColorByType(typesList.first, isDarkMode: isDarkMode),
         border: DottedBorder(
             dashSpace: 6,
             borderRadius: 10,
             strokeWidth: 1.2,
             dashPattern: 5,
-            color: Colors.black87),
+            color: borderColor),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

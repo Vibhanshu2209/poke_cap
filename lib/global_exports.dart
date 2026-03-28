@@ -83,24 +83,50 @@ List<Widget> listOfWidgetsWithSpacing(List<Widget> widgets,
 }
 
 ThemeData get lightTheme => ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: PokemonColors.background,
       sliderTheme: SliderThemeData.fromPrimaryColors(
           primaryColor: PokemonColors.buttonColor,
           primaryColorDark: PokemonColors.statBarBg,
           primaryColorLight: PokemonColors.electric,
           valueIndicatorTextStyle: TextStyle(color: PokemonColors.background)),
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      textTheme: GoogleFonts.poppinsTextTheme(
+        const TextTheme(
+          displayMedium: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          bodyMedium: TextStyle(color: Colors.black87),
+          bodySmall: TextStyle(color: Colors.black54),
+        ),
+      ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.orange,
-        brightness: Brightness.light, // Ensures this is a light theme
+        brightness: Brightness.light,
+        background: PokemonColors.background,
+        surface: Colors.white,
       ),
+      dividerColor: Colors.black54,
+      iconTheme: const IconThemeData(color: Colors.black54),
     );
 
 ThemeData get darkTheme => ThemeData(
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: const Color(0xFF121212),
+      textTheme: GoogleFonts.poppinsTextTheme(
+        const TextTheme(
+          displayMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          bodyMedium: TextStyle(color: Colors.white70),
+          bodySmall: TextStyle(color: Colors.white60),
+        ),
+      ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.orange,
-        brightness: Brightness.dark, // Ensures this is a dark theme
+        brightness: Brightness.dark,
+        background: const Color(0xFF121212),
+        surface: const Color(0xFF1E1E1E),
       ),
+      dividerColor: Colors.white24,
+      iconTheme: const IconThemeData(color: Colors.white60),
     );
 
 extension ShortHands on Widget {

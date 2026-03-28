@@ -17,7 +17,6 @@ class PokemonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PokemonColors.background,
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -27,7 +26,7 @@ class PokemonDetails extends StatelessWidget {
             _buildHeader(context),
             _buildImageAndDescription(context),
             _buildOverviewSection(context),
-            _buildStats(),
+            _buildStats(context),
             EvolutionChainFragment(current: pokemon),
             _nextPrevButton(context),
             SizedBox(height: 100)
@@ -50,8 +49,7 @@ class PokemonDetails extends StatelessWidget {
               pokemon.name.toUpperCase().tw(
                   ts: Theme.of(context)
                       .textTheme
-                      .displayMedium!
-                      .copyWith(color: Colors.black)),
+                      .displayMedium!),
               "00${pokemon.id}"
                   .toString()
                   .tw(ts: Theme.of(context).textTheme.displaySmall),
@@ -99,7 +97,7 @@ class PokemonDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _overviewSingleItem(context, "Gender(s)",
-                customComponent: _genderChip(pokemon.gender)),
+                customComponent: _genderChip(pokemon.gender, context)),
             _overviewSingleItem(context, "Egg Groups",
                 plainTextValue: pokemon.eggGroupsPresentation)
           ],
@@ -123,7 +121,7 @@ class PokemonDetails extends StatelessWidget {
     ).padX(30);
   }
 
-  Widget _genderChip(Map<String, dynamic> genderMap) {
+  Widget _genderChip(Map<String, dynamic> genderMap, BuildContext context) {
     double fValue = genderMap["Female"] / 100;
     double mValue = genderMap["Male"] / 100;
 
@@ -144,11 +142,15 @@ class PokemonDetails extends StatelessWidget {
       colors = [Colors.grey];
     }
 
+    final borderColor = Theme.of(context).brightness == Brightness.dark 
+        ? Colors.white30 
+        : Colors.black;
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(colors: colors, stops: stops),
-          border: Border.all(color: Colors.black, width: 1.2)),
+          border: Border.all(color: borderColor, width: 1.2)),
       child: (genderMap["ClassifyAs"] as String)
           .capitalizeFirstLetter()
           .tw()
@@ -175,7 +177,7 @@ class PokemonDetails extends StatelessWidget {
               ts: Theme.of(context)
                   .textTheme
                   .titleMedium!
-                  .copyWith(color: Colors.black, fontWeight: FontWeight.w600)),
+                  .copyWith(fontWeight: FontWeight.w600)),
           if (customComponent != null) customComponent,
           if (plainTextValue != null)
             plainTextValue.tw(ts: Theme.of(context).textTheme.titleMedium),
@@ -194,9 +196,14 @@ class PokemonDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildStats() {
+  Widget _buildStats(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final statsBackground = isDarkMode 
+        ? PokemonColors.statsFragmentBgDark 
+        : PokemonColors.statsFragmentBg;
+    
     return Container(
-      color: PokemonColors.statsFragmentBg,
+      color: statsBackground,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
