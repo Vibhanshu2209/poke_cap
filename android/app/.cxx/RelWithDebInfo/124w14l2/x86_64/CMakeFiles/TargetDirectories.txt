@@ -1,0 +1,2 @@
+S:/projects/poke_cap/android/app/.cxx/RelWithDebInfo/124w14l2/x86_64/CMakeFiles/edit_cache.dir
+S:/projects/poke_cap/android/app/.cxx/RelWithDebInfo/124w14l2/x86_64/CMakeFiles/rebuild_cache.dir

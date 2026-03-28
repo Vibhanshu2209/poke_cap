@@ -1,0 +1,2 @@
+S:/projects/poke_cap/android/app/.cxx/Debug/6411603t/armeabi-v7a/CMakeFiles/edit_cache.dir
+S:/projects/poke_cap/android/app/.cxx/Debug/6411603t/armeabi-v7a/CMakeFiles/rebuild_cache.dir
